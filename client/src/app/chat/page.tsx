@@ -49,9 +49,36 @@ export default function ChatScreen() {
   useEffect(() => {
     // Load business context from onboarding
     const ctx = localStorage.getItem('businessContext');
+    let parsedCtx = null;
     if (ctx) {
       try {
-        setBusinessContext(JSON.parse(ctx));
+        parsedCtx = JSON.parse(ctx);
+        setBusinessContext(parsedCtx);
+      } catch (e) {}
+    }
+
+    // Load initial chat data if coming directly from onboarding
+    const initialDataStr = localStorage.getItem('initialChatData');
+    if (initialDataStr) {
+      try {
+        const initialData = JSON.parse(initialDataStr);
+        const aiMessageId = Date.now().toString();
+        const aiMessage: Message = {
+          id: aiMessageId,
+          sender: 'ai',
+          text: initialData.text,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          type: initialData.type,
+          cardData: initialData.cardData
+        };
+
+        if (aiMessage.type === 'suggestion' && aiMessage.cardData) {
+           const keywords = parsedCtx?.product ? encodeURIComponent(parsedCtx.product.split(' ')[0]) : 'product';
+           aiMessage.cardData.imageUrl = `https://loremflickr.com/400/300/${keywords},sale?lock=${aiMessageId}`;
+        }
+
+        setMessages([aiMessage]);
+        localStorage.removeItem('initialChatData');
       } catch (e) {}
     }
   }, []);

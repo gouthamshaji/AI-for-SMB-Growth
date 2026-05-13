@@ -7,27 +7,53 @@ import styles from './page.module.css';
 export default function OnboardingScreen() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [isInitializing, setIsInitializing] = useState(false);
   const [formData, setFormData] = useState({
     product: '',
     location: '',
     orderValue: '500-1000'
   });
 
-  const saveContextAndNavigate = () => {
+  const generateInitialAIContext = async () => {
+    setIsInitializing(true);
     localStorage.setItem('businessContext', JSON.stringify(formData));
-    router.push('/chat');
+    
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message: "I just signed up. Please welcome me briefly and give me ONE quick post suggestion to get started.",
+          context: formData
+        })
+      });
+      const resData = await response.json();
+      
+      if (resData.success && resData.data) {
+         localStorage.setItem('initialChatData', JSON.stringify(resData.data));
+      }
+    } catch (e) {
+      console.error("Failed to generate initial AI context", e);
+    } finally {
+      setIsInitializing(false);
+      router.push('/chat');
+    }
   };
 
   const handleNext = () => {
-    if (step < 3) {
+    if (step === 2) {
+      setStep(3);
+      generateInitialAIContext();
+    } else if (step < 3) {
       setStep(step + 1);
     } else {
-      saveContextAndNavigate();
+      router.push('/chat');
     }
   };
 
   const handleSkip = () => {
-    saveContextAndNavigate();
+    localStorage.setItem('businessContext', JSON.stringify(formData));
+    router.push('/chat');
   };
 
   return (
@@ -110,15 +136,18 @@ export default function OnboardingScreen() {
         {step === 3 && (
           <div className={styles.formGroup}>
             <p className="body-large">Setting up your AI profile. This takes just a moment...</p>
-             <div className={styles.mockBox}>AI Initialization Placeholder</div>
+             <div className={styles.mockBox} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+                <span className={styles.spinner} style={{ animation: 'spin 1s linear infinite' }}>⏳</span>
+                Generating custom ideas...
+             </div>
           </div>
         )}
 
       </div>
 
       <div className={styles.footer}>
-        <button className="btn-primary" onClick={handleNext}>
-          Next &rarr;
+        <button className="btn-primary" onClick={handleNext} disabled={isInitializing}>
+          {isInitializing ? 'Preparing AI...' : 'Next \u2192'}
         </button>
       </div>
     </main>
