@@ -28,7 +28,7 @@ export default function DashboardScreen() {
   }, []);
 
   return (
-    <main className="min-h-screen w-full flex flex-col overflow-hidden relative bg-cream">
+    <main className="min-h-screen w-full flex flex-col relative bg-cream">
       <header className="h-16 bg-white/90 backdrop-blur-sm shadow-sm z-10 w-full shrink-0 flex items-center justify-center border-b border-black/5">
         <div className="w-full max-w-3xl px-4 md:px-6 h-full flex items-center justify-between">
           <button onClick={() => router.push('/chat')} className="flex items-center gap-2 p-2 hover:bg-black/5 rounded-full transition-colors -ml-2">
@@ -41,7 +41,7 @@ export default function DashboardScreen() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto py-6 pb-10 w-full flex flex-col items-center">
+      <div className="w-full py-6 pb-12 flex flex-col items-center">
         <div className="w-full max-w-3xl px-4 md:px-6 flex flex-col gap-6">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -50,7 +50,7 @@ export default function DashboardScreen() {
           </div>
         ) : data ? (
           <>
-            <motion.section 
+             <motion.section 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-col gap-4 w-full"
@@ -60,7 +60,7 @@ export default function DashboardScreen() {
                 <h3 className="text-lg font-bold text-brown">This Week</h3>
               </div>
               
-              <div className="w-full bg-white rounded-card shadow-md p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 overflow-hidden">
+              <div className="w-full bg-white rounded-2xl shadow-md py-8 px-8 md:py-10 md:px-10 grid grid-cols-2 md:grid-cols-4 gap-6 overflow-hidden">
                 <div className="space-y-1">
                   <span className="text-2xl font-bold text-orange">{data.posts_suggested}</span>
                   <p className="text-[10px] font-bold text-dark-gray/40 uppercase tracking-wider">Posts Suggested</p>
@@ -90,7 +90,7 @@ export default function DashboardScreen() {
                 <Lightbulb size={20} className="text-yellow" />
                 <h3 className="text-lg font-bold text-brown">What's Working</h3>
               </div>
-              <div className="w-full bg-white rounded-card shadow-md p-6 pl-8 md:pl-10 border-l-4 border-yellow overflow-hidden">
+              <div className="w-full bg-white rounded-2xl shadow-md py-8 px-10 pl-12 md:py-10 md:px-12 md:pl-14 border-l-4 border-yellow overflow-hidden">
                 <ul className="flex flex-col gap-3">
                   {data.insights.map((insight: string, idx: number) => (
                     <li key={idx} className="text-sm text-dark-gray leading-snug flex items-start gap-3 italic">
@@ -112,7 +112,7 @@ export default function DashboardScreen() {
                 <Zap size={20} className="text-info" />
                 <h3 className="text-lg font-bold text-brown">Next Best Action</h3>
               </div>
-              <div className="w-full bg-white rounded-card shadow-md p-6 pl-8 md:pl-10 pb-8 border-l-4 border-info flex flex-col gap-4 overflow-hidden">
+              <div className="w-full bg-white rounded-2xl shadow-md py-8 px-10 pl-12 pb-10 md:py-10 md:px-12 md:pl-14 md:pb-12 border-l-4 border-info flex flex-col gap-4 overflow-hidden">
                 <p className="text-sm font-medium text-dark-gray leading-relaxed">{data.next_action.text}</p>
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-xs font-bold text-dark-gray/40 uppercase tracking-wider">{data.next_action.action}</span>
