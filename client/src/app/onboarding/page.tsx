@@ -57,7 +57,7 @@ export default function OnboardingScreen() {
 
   return (
     <main className="min-h-screen w-full flex flex-col overflow-x-hidden relative bg-cream">
-      <header className="h-20 bg-white/90 backdrop-blur-md sticky top-0 z-10 w-full shrink-0 flex items-center justify-center border-b border-black/5">
+      <header className="h-16 md:h-20 bg-white/90 backdrop-blur-md sticky top-0 z-10 w-full shrink-0 flex items-center justify-center border-b border-black/5">
         <div className="w-full max-w-3xl px-4 md:px-6 h-full flex items-center justify-between">
           <button 
             onClick={() => step > 1 ? setStep(step - 1) : router.back()}
@@ -87,7 +87,7 @@ export default function OnboardingScreen() {
         </div>
       </header>
 
-      <div className="flex-1 py-6 flex flex-col w-full items-center justify-center">
+      <div className="flex-1 py-4 md:py-8 flex flex-col w-full items-center justify-start md:justify-center">
         <div className="w-full max-w-md px-4">
         <AnimatePresence mode="wait">
           {step === 1 && (
@@ -96,57 +96,57 @@ export default function OnboardingScreen() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="space-y-10"
+              className="space-y-5 md:space-y-10"
             >
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold text-brown leading-tight">Tell me about your business 🏠</h2>
-                <p className="text-dark-gray/50 font-medium">This helps me give you better ideas.</p>
+              <div className="space-y-1.5 md:space-y-2">
+                <h2 className="text-2xl md:text-3xl font-bold text-brown leading-tight">Tell me about your business 🏠</h2>
+                <p className="text-sm md:text-base text-dark-gray/50 font-medium">This helps me give you better ideas.</p>
               </div>
               
-              <div className="space-y-8">
-                <div className="space-y-3">
-                  <label className="text-xs font-bold text-dark-gray/60 uppercase tracking-widest px-1">What do you sell?</label>
+              <div className="space-y-4 md:space-y-8">
+                <div className="space-y-1.5 md:space-y-3">
+                  <label className="text-[10px] md:text-xs font-bold text-dark-gray/60 uppercase tracking-widest px-1">What do you sell?</label>
                   <input 
-                    className="w-full h-16 bg-white rounded-input border-2 border-transparent focus:border-orange px-6 text-dark-gray font-semibold shadow-sm outline-none transition-all placeholder:text-dark-gray/20" 
+                    className="w-full h-12 md:h-16 bg-white rounded-input border-2 border-transparent focus:border-orange px-4 md:px-6 text-sm md:text-base text-dark-gray font-semibold shadow-sm outline-none transition-all placeholder:text-dark-gray/20" 
                     placeholder="e.g. Homemade chocolates" 
                     value={formData.product}
                     onChange={(e) => setFormData({...formData, product: e.target.value})}
                   />
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-xs font-bold text-dark-gray/60 uppercase tracking-widest px-1">Where are you located?</label>
+                <div className="space-y-1.5 md:space-y-3">
+                  <label className="text-[10px] md:text-xs font-bold text-dark-gray/60 uppercase tracking-widest px-1">Where are you located?</label>
                   <input 
-                    className="w-full h-16 bg-white rounded-input border-2 border-transparent focus:border-orange px-6 text-dark-gray font-semibold shadow-sm outline-none transition-all placeholder:text-dark-gray/20" 
+                    className="w-full h-12 md:h-16 bg-white rounded-input border-2 border-transparent focus:border-orange px-4 md:px-6 text-sm md:text-base text-dark-gray font-semibold shadow-sm outline-none transition-all placeholder:text-dark-gray/20" 
                     placeholder="e.g. Pune, Maharashtra" 
                     value={formData.location}
                     onChange={(e) => setFormData({...formData, location: e.target.value})}
                   />
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-xs font-bold text-dark-gray/60 uppercase tracking-widest px-1">Average order value?</label>
-                  <div className="grid grid-cols-1 gap-3">
+                <div className="space-y-2 md:space-y-4">
+                  <label className="text-[10px] md:text-xs font-bold text-dark-gray/60 uppercase tracking-widest px-1">Average order value?</label>
+                  <div className="grid grid-cols-2 gap-2 md:grid-cols-1 md:gap-3">
                     {[
                       { id: 'under500', label: 'Under ₹500' },
-                      { id: '500-1000', label: '₹500 - ₹1,000' },
-                      { id: '1000-2000', label: '₹1,000 - ₹2,000' },
-                      { id: 'above2000', label: 'Above ₹2,000' }
+                      { id: '500-1000', label: '₹500 - ₹1k' },
+                      { id: '1000-2000', label: '₹1k - ₹2k' },
+                      { id: 'above2000', label: 'Above ₹2k' }
                     ].map((opt) => (
                       <button
                         key={opt.id}
                         onClick={() => setFormData({...formData, orderValue: opt.id})}
-                        className={`flex items-center justify-between h-16 px-6 rounded-input font-bold transition-all border-2 ${
+                        className={`flex items-center justify-between h-11 md:h-16 px-3.5 md:px-6 rounded-input text-[13px] md:text-base font-bold transition-all border-2 ${
                           formData.orderValue === opt.id 
                             ? 'bg-orange/5 border-orange text-orange' 
                             : 'bg-white border-transparent text-dark-gray'
                         }`}
                       >
                         {opt.label}
-                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                        <div className={`w-4 h-4 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center transition-colors shrink-0 ${
                           formData.orderValue === opt.id ? 'border-orange bg-orange' : 'border-dark-gray/10'
                         }`}>
-                          {formData.orderValue === opt.id && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
+                          {formData.orderValue === opt.id && <div className="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-white rounded-full" />}
                         </div>
                       </button>
                     ))}
@@ -206,10 +206,10 @@ export default function OnboardingScreen() {
         </div>
       </div>
 
-      <div className="py-4 bg-white/90 backdrop-blur-md border-t border-light-gray sticky bottom-0 w-full shrink-0 z-10 flex items-center justify-center">
+      <div className="py-3 md:py-4 bg-white/90 backdrop-blur-md border-t border-light-gray sticky bottom-0 w-full shrink-0 z-10 flex items-center justify-center">
         <div className="w-full max-w-md px-4">
           <button 
-            className={`w-full h-16 rounded-btn font-bold text-white shadow-lg transition-all active:scale-95 flex items-center justify-center gap-3 ${
+            className={`w-full h-12 md:h-16 rounded-btn font-bold text-white shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 ${
               isInitializing ? 'bg-dark-gray/20 cursor-not-allowed' : 'bg-gradient-to-r from-orange to-yellow shadow-orange/30'
             }`}
             onClick={handleNext} 
@@ -217,13 +217,13 @@ export default function OnboardingScreen() {
           >
             {isInitializing ? (
               <>
-                <Loader2 size={24} className="animate-spin" />
-                <span>Preparing AI...</span>
+                <Loader2 size={20} className="animate-spin" />
+                <span className="text-sm md:text-base">Preparing AI...</span>
               </>
             ) : (
               <>
-                <span className="text-lg">{step === 3 ? 'Get Started' : 'Continue'}</span>
-                <ChevronRight size={24} />
+                <span className="text-sm md:text-lg">{step === 3 ? 'Get Started' : 'Continue'}</span>
+                <ChevronRight size={20} className="md:w-6 md:h-6" />
               </>
             )}
           </button>
